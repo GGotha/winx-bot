@@ -1,7 +1,9 @@
 
 
 <h1 align="center">
+  ```
   Winx Bot
+  ```
 </h1>
 
 <h3 align="center">
@@ -10,7 +12,9 @@
 
 
 <h1 align="center">
+  ```
   Comandos
+  ```
 </h1>
 
 <h3 align="center">
@@ -18,11 +22,13 @@
 </h3> 
 
 <h4 align="left">
-## wx!comandos
+```
+wx!comandos
   <br>
 wx!fudo
   <br>
 wx!ping
   <br>
 wx!autor
+  ```
 </h4>
