@@ -1,9 +1,7 @@
-
-
 <h1 align="center">
-  ```
-  Winx Bot
-  ```
+
+WINX Bot
+
 </h1>
 
 <h3 align="center">
@@ -12,23 +10,18 @@
 
 
 <h1 align="center">
-  ```
+
   Comandos
-  ```
+
 </h1>
 
 <h3 align="center">
   <img src="https://www.shareicon.net/download/2015/09/15/641268_windows_512x512.png" width="215"><br>
 </h3> 
 
-<h4 align="left">
 ```
 wx!comandos
-  <br>
-wx!fudo
-  <br>
 wx!ping
-  <br>
+wx!fudo
 wx!autor
-  ```
-</h4>
+```
