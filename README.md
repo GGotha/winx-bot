@@ -18,7 +18,7 @@
 </h3> 
 
 <h4 align="left">
-# wx!comandos\n
+## wx!comandos\n
 wx!fudo\n
 wx!ping\n
 wx!autor\n
