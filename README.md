@@ -11,7 +11,7 @@ Welcome - WINX Bot
 
 <h1 align="center">
 
-  Comandos
+  Comandos/Commands
 
 </h1>
 
