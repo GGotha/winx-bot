@@ -17,3 +17,7 @@
   <img src="https://www.shareicon.net/download/2015/09/15/641268_windows_512x512.png" width="215"><br>
 </h3> 
 
+#wx!comandos
+#wx!fudo
+#wx!ping
+#wx!autor
