@@ -1,6 +1,6 @@
 <h1 align="center">
 
-WINX Bot
+Welcome - WINX Bot
 
 </h1>
 
