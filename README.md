@@ -18,8 +18,8 @@
 </h3> 
 
 <h4 align="left">
-#wx!comandos
-#wx!fudo
-#wx!ping
-#wx!autor
+wx!comandos\n
+wx!fudo\n
+wx!ping\n
+wx!autor\n
 </h4>
