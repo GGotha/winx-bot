@@ -1,10 +1,11 @@
 const Discord = require("discord.js");
-const config = require("./config.json");
+const { UserConnection } = require("discord.js");
 const fs = require("fs");
-// const bla = require("../src/commands/");
+
+require("dotenv").config();
 
 const client = new Discord.Client();
-client.prefix = config.prefix;
+client.prefix = process.env.WX_PREFIX;
 client.commands = new Discord.Collection();
 
 fs.readdir("./src/commands", (error, files) => {
@@ -34,17 +35,18 @@ client.on("ready", () => {
   client.user.setPresence({
     status: "online",
     game: {
-      type: `WATCHING`,
-      name: `wx!comandos`
+      name: "WINX ep.1",
+      type: "STREAMING",
+      url: "https://www.twitch.tv/gothaxd"
     }
   });
 });
 
 client.on("message", async message => {
   let msg = message.content.toLowerCase();
-  if (message.author.bot) return undefined;
-
-  // if (message.content.indexOf(client.prefix) !== 0) return;
+  if (message.author.bot) {
+    return undefined;
+  }
 
   const args = message.content
     .slice("wx!".length)
@@ -72,4 +74,6 @@ client.on(`guildMemberAdd`, member => {
   }
 });
 
-client.login(config.token);
+console.log(UserConnection);
+
+client.login(process.env.WX_TOKEN);
