@@ -1,5 +1,2 @@
-/node_modules
-/yarn.lock
-/procfile
-/package-lock.json
-/.env
+node_modules
+.env
