@@ -4,7 +4,7 @@ const fs = require("fs");
 require("dotenv").config();
 
 const client = new Discord.Client();
-client.prefix = process.env.WX_PREFIX;
+client.prefix = process.env.PREFIX;
 client.commands = new Discord.Collection();
 
 fs.readdir("./src/commands", (error, files) => {
@@ -136,4 +136,4 @@ client.on("guildMemberAdd", member => {
   }
 });
 
-client.login(process.env.WX_TOKEN);
+client.login(process.env.TOKEN);
