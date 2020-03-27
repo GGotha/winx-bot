@@ -34,7 +34,7 @@ client.on("ready", () => {
     game: {
       name: "WINX ep.1",
       type: "STREAMING",
-      url: "https://www.twitch.tv/gothaxd"
+      url: "https://www.twitch.tv/ggotha"
     }
   });
 });
@@ -97,6 +97,9 @@ let memberObject = "";
 client.on("guildMemberAdd", member => {
   memberObject = member;
 
+  const thumbLogo = `https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatarURL}.png`;
+  const thumbLogoSplit = thumbLogo.split("https://")[2];
+
   async function sendEmbedWhenMemberJoinOnServer() {
     let welcomeEmbed = new Discord.RichEmbed()
       .setTitle("Entrou no servidor")
@@ -105,7 +108,7 @@ client.on("guildMemberAdd", member => {
         "O usuário " + "<@" + member.user.id + ">" + " entrou no servidor"
       )
       .setColor("#36393E")
-      .setThumbnail(member.user.displayAvatarURL)
+      .setThumbnail("https://" + thumbLogoSplit)
       .setTimestamp();
 
     const getChannelByIdAndSendWelcomeMessage = await client.channels

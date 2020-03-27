@@ -1,0 +1,51 @@
+Arguments: 
+  /snap/node/2494/bin/node /snap/node/2494/bin/yarn.js add pm2 --global --ignore-engines
+
+PATH: 
+  /home/gothat/.nvm/versions/node/v10.16.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/gothat/Android/Sdk/tools:/home/gothat/Android/Sdk/platform-tools:/home/gothat/.fzf/bin
+
+Yarn version: 
+  1.17.3
+
+Node version: 
+  13.0.0-nightly20190802452b393c1f
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: EACCES: permission denied, mkdir '/home/gothat/nodejs/botdiscord/node_modules/agent-base'
+
+npm manifest: 
+  {
+    "name": "botdiscord",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "nodemon src/index.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Gotha",
+    "license": "ISC",
+    "dependencies": {
+      "discord.js": "^11.4.2",
+      "dotenv": "^8.2.0",
+      "fs": "0.0.1-security",
+      "mysql2": "^2.0.0",
+      "path": "^0.12.7",
+      "sequelize": "^5.21.2",
+      "sqlite3": "^4.0.6"
+    },
+    "devDependencies": {
+      "nodemon": "^1.19.1",
+      "sequelize-cli": "^5.5.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
