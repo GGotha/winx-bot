@@ -10,7 +10,7 @@ client.commands = new Discord.Collection();
 fs.readdir("./src/commands", (error, files) => {
   if (error) console.log(error);
 
-  var jsfile = files.filter(f => f.split(".").pop() === "js");
+  var jsfile = files.filter((f) => f.split(".").pop() === "js");
   if (jsfile.length <= 0) {
     console.log("não encontrei comandos");
     return;
@@ -34,27 +34,24 @@ client.on("ready", () => {
     game: {
       name: "WINX ep.1",
       type: "STREAMING",
-      url: "https://www.twitch.tv/ggotha"
-    }
+      url: "https://www.twitch.tv/ggotha",
+    },
   });
 });
 
-client.on("message", async message => {
+client.on("message", async (message) => {
   message.content.toLowerCase();
   if (message.author.bot) {
     return undefined;
   }
 
-  const args = message.content
-    .slice("wx!".length)
-    .trim()
-    .split(/ +/g);
+  const args = message.content.slice("wx!".length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   let commandFile = client.commands.get(command);
   if (commandFile) commandFile.run(client, message, args);
 });
 
-client.on("raw", event => {
+client.on("raw", (event) => {
   const roleLiderForCheckPermission = "307686764149997568";
   const eventNameT = event.t;
   const eventNameD = event.d;
@@ -94,7 +91,7 @@ client.on("raw", event => {
 
 let memberObject = "";
 
-client.on("guildMemberAdd", member => {
+client.on("guildMemberAdd", (member) => {
   memberObject = member;
 
   const thumbLogo = `https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatarURL}.png`;
@@ -131,9 +128,7 @@ client.on("guildMemberAdd", member => {
       .setColor("#36393E");
 
     member.send(welcomePrivateMessageForMember);
-  } else {
-    console.log("deu errado");
   }
 });
 
-client.login(process.env.TOKEN);
+client.login("NTUwNTI2OTAzODU0MDM5MDQy.XHdcIg.-zKjYz4KBXkkvilz_-lS30_iYGo");
