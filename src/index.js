@@ -1,7 +1,12 @@
 const Discord = require("discord.js");
 const fs = require("fs");
+const path = require("path");
 
-require("dotenv").config();
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
+
+require("dotenv").config({
+  path: path.resolve(__dirname, "..", ".env." + process.env.NODE_ENV),
+});
 
 const client = new Discord.Client();
 client.prefix = process.env.PREFIX;
@@ -131,4 +136,4 @@ client.on("guildMemberAdd", (member) => {
   }
 });
 
-client.login("NTUwNTI2OTAzODU0MDM5MDQy.XHdcIg.-zKjYz4KBXkkvilz_-lS30_iYGo");
+client.login(process.env.TOKEN);
