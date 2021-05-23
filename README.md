@@ -30,7 +30,7 @@ Some Images
 </h2>
 
 
-![image](https://user-images.githubusercontent.com/36175761/118582779-50814e80-b76a-11eb-9192-c23f0da86cc6.png)
+![image](https://user-images.githubusercontent.com/36175761/119246164-c2d0a500-bb55-11eb-8118-c6c3cc0de850.png)
 
 ![image](https://user-images.githubusercontent.com/36175761/118582831-6c84f000-b76a-11eb-9e49-2df9733658ca.png)
 
