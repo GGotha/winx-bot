@@ -5,7 +5,7 @@ const riotGamesBaseURL = "https://br1.api.riotgames.com/";
 const api = axios.create({
   headers: {
     common: {
-      "X-Riot-Token": "RGAPI-8947911b-dc82-4b48-a1b8-065d4f0aa916",
+      "X-Riot-Token": process.env.RIOT_GAMES_API_TOKEN,
     },
   },
   baseURL: riotGamesBaseURL,

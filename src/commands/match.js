@@ -1,11 +1,12 @@
 const Discord = require("discord.js");
 const api = require("../api/axios");
 const path = require("path");
+const RiotGames = require("../classes/RiotGames");
+const Spectate = require("../classes/Spectate");
+const Ranked = require("../classes/Ranked");
 
 const DISCORD_COMMAND = "lol_match";
 
-const BLUE_SIDE_ID = 100;
-const RED_SIDE_ID = 200;
 const NORMAL_GAME = 400;
 const RANKED_GAME = 420;
 
@@ -15,56 +16,61 @@ module.exports.run = async (client, message, args) => {
   const loadingMessage = await message.channel.send("Procurando partida...");
 
   try {
-    const getSummonerBySummonerName = await api.get(
-      `/lol/summoner/v4/summoners/by-name/${userMessage}`
-    );
-
-    const summonerId = getSummonerBySummonerName.data.id;
-    const summonerName = getSummonerBySummonerName.data.name;
-    const summonerLevel = getSummonerBySummonerName.data.summonerLevel;
-    const summonerIcon = getSummonerBySummonerName.data.profileIconId;
+    const {
+      id: summonerId,
+      name: summonerName,
+      summonerLevel,
+      profileIconId: summonerIcon,
+    } = await RiotGames.getSummonerTokensBySummonerName(userMessage);
 
     const embedSummonerIcon = `http://ddragon.leagueoflegends.com/cdn/11.10.1/img/profileicon/${summonerIcon}.png`;
 
-    const getInfoSpectate = await api.get(
-      `/lol/spectator/v4/active-games/by-summoner/${summonerId}`
+    const spectate = await RiotGames.getInfoSpectate(summonerId);
+
+    const blueSideSummoners = await Spectate.blueSidePlayers(
+      spectate.participants
     );
 
-    const blueSideParticipants = getInfoSpectate.data.participants.filter(
-      (participant) => {
-        return participant.teamId === BLUE_SIDE_ID;
-      }
-    );
-    const redSideParticipants = getInfoSpectate.data.participants.filter(
-      (participant) => {
-        return participant.teamId === RED_SIDE_ID;
-      }
+    const redSideSummoners = await Spectate.redSidePlayers(
+      spectate.participants
     );
 
-    const getInfoBlueParticipantOne = await api.get(
-      `/lol/league/v4/entries/by-summoner/${blueSideParticipants[0].summonerId}`
+    /**
+     * TODO
+     *
+     * Remover getBlueSideSoloDuoPlayers e getRedSideSoloDuoPlayers
+     *
+     * Criar uma função getInfoSummonersSoloduo
+     *
+     * Essa função retornará os players blueSide e redSide
+     * Ex response:
+     *
+     * {
+     *  "blueSide": {
+     *    player1: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *    player2: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *    player3: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *    player4: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *    player5: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *  },
+     *  "redSide": {
+     *    player1: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *    player2: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *    player3: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *    player4: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *    player5: { summonerName: 'Loveell', elo: 'BRONZE I 3PDL' }
+     *  }
+     * }
+     *
+     */
+
+    const blueSidePlayers = await Ranked.getBlueSideSoloDuoPlayers(
+      blueSideSummoners
     );
 
-    console.log(getInfoBlueParticipantOne.data);
-
-    const soloDuoBlueParticipantOne = getInfoBlueParticipantOne?.data.filter(
-      (rank) => {
-        return rank.queueType === "RANKED_SOLO_5x5";
-      }
+    const redSidePlayers = await Ranked.getRedSideSoloDuoPlayers(
+      redSideSummoners
     );
-
-    var embedImage;
-    var embedPathImage;
-
-    if (soloDuoBlueParticipantOne[0]?.tier === "PLATINUM") {
-      embedImage = "Emblem_Platinum";
-      embedPathImage = path.resolve(
-        "src",
-        "assets",
-        "elo",
-        "Emblem_Platinum.png"
-      );
-    }
 
     let botembed = new Discord.MessageEmbed()
       .setColor("#FF00FF")
@@ -77,7 +83,24 @@ module.exports.run = async (client, message, args) => {
       .addFields(
         {
           name: "Blue side",
-          value: `:blue_circle: ${blueSideParticipants[0].summonerName} \n ${blueSideParticipants[1].summonerName} \n ${blueSideParticipants[2].summonerName} \n ${blueSideParticipants[3].summonerName} \n ${blueSideParticipants[4].summonerName}`,
+          value: `
+          ${blueSidePlayers[`player1`].summonerName} - ${
+            blueSidePlayers[`player1`].elo
+          }
+          ${blueSidePlayers[`player2`].summonerName} - ${
+            blueSidePlayers[`player2`].elo
+          }
+          ${blueSidePlayers[`player3`].summonerName} - ${
+            blueSidePlayers[`player3`].elo
+          }
+          ${blueSidePlayers[`player4`].summonerName} - ${
+            blueSidePlayers[`player4`].elo
+          }
+          ${blueSidePlayers[`player5`].summonerName} - ${
+            blueSidePlayers[`player5`].elo
+          }
+          `,
+          // value: `${blueSideSummoners[0].summonerName} \n ${blueSideSummoners[1].summonerName} \n ${blueSideSummoners[2].summonerName} \n ${blueSideSummoners[3].summonerName} \n ${blueSideSummoners[4].summonerName}`,
           inline: true,
         },
         {
@@ -87,7 +110,23 @@ module.exports.run = async (client, message, args) => {
         },
         {
           name: "Red Side",
-          value: `${redSideParticipants[0].summonerName} \n ${redSideParticipants[1].summonerName} \n ${redSideParticipants[2].summonerName} \n ${redSideParticipants[3].summonerName} \n ${redSideParticipants[4].summonerName}`,
+          value: `
+          ${redSidePlayers[`player1`].summonerName} - ${
+            redSidePlayers[`player1`].elo
+          }
+          ${redSidePlayers[`player2`].summonerName} - ${
+            redSidePlayers[`player2`].elo
+          }
+          ${redSidePlayers[`player3`].summonerName} - ${
+            redSidePlayers[`player3`].elo
+          }
+          ${redSidePlayers[`player4`].summonerName} - ${
+            redSidePlayers[`player4`].elo
+          }
+          ${redSidePlayers[`player5`].summonerName} - ${
+            redSidePlayers[`player5`].elo
+          }
+          `,
           inline: true,
         }
       )
