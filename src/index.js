@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const path = require("path");
+const cron = require("node-cron");
+const findMatchForSpecificUser = require("./tasks/findMatchForSpecificUser");
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
@@ -17,23 +19,28 @@ fs.readdir("./src/commands", (error, files) => {
 
   var jsfile = files.filter((f) => f.split(".").pop() === "js");
   if (jsfile.length <= 0) {
-    console.log("não encontrei comandos");
     return;
   }
   jsfile.forEach((f, i) => {
     var props = require(`./commands/${f}`);
-    console.log(`Carregou o comando ${f}`);
+
     client.commands.set(props.help.name, props);
   });
 });
 
 client.on("ready", () => {
-  console.log(
-    "Bot iniciado! \n\n Users: " +
-      client.users.size +
-      "\n Servidores: " +
-      client.guilds.size
+  cron.schedule("*/30 * * * * *", () =>
+    fs.readFile(
+      path.join("src", "assets", "whitelist_find_match.txt"),
+      "utf-8",
+      function (err, data) {
+        findMatchForSpecificUser(client, data);
+      }
+    )
   );
+
+  console.log("Bot iniciado!");
+
   client.user.setPresence({
     status: "online",
     game: {

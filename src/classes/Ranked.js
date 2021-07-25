@@ -76,8 +76,6 @@ class Ranked {
       });
     });
 
-    console.log(redSidePlayers);
-
     return redSidePlayers;
   }
 }
