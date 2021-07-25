@@ -14,13 +14,15 @@ module.exports = async (client, whiteListNames) => {
   console.log(`Searching for ${arrayNames}`);
 
   arrayNames.map(async (name) => {
+    const encodedLolNickname = encodeURIComponent(name);
+
     try {
       const {
         id: summonerId,
         name: summonerName,
         summonerLevel,
         profileIconId: summonerIcon,
-      } = await RiotGames.getSummonerTokensBySummonerName(name);
+      } = await RiotGames.getSummonerTokensBySummonerName(encodedLolNickname);
 
       const spectate = await RiotGames.getInfoSpectate(summonerId);
 
@@ -133,6 +135,7 @@ module.exports = async (client, whiteListNames) => {
         }
       );
     } catch (err) {
+      console.log(err);
       return;
     }
   });
