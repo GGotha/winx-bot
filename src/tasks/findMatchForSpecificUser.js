@@ -6,7 +6,7 @@ const Spectate = require("../classes/Spectate");
 const Ranked = require("../classes/Ranked");
 const fs = require("fs");
 
-const CHANNEL_ID_WHICH_MESSAGE_WILL_BE_SENT = "558336272834494485";
+const CHANNEL_ID_WHICH_MESSAGE_WILL_BE_SENT = "843994642085183488";
 
 module.exports = async (client, whiteListNames) => {
   const arrayNames = whiteListNames.split(",");
