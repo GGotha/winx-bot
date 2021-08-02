@@ -142,7 +142,6 @@ module.exports.run = async (client, message, args) => {
     loadingMessage.delete();
     return message.channel.send(botembed);
   } catch (err) {
-    console.log(err);
     loadingMessage.edit(`Invocador não encontrado`);
   }
 };

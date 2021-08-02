@@ -5,10 +5,10 @@ class RiotGames {
     this.apiRiotGames = axios.create({
       headers: {
         common: {
-          "X-Riot-Token": "RGAPI-0cc17cc0-06d6-4a76-be66-c002177c5283",
+          "X-Riot-Token": process.env.RIOT_GAMES_API_TOKEN,
         },
       },
-      baseURL: "https://br1.api.riotgames.com/",
+      baseURL: process.env.RIOT_GAMES_API_URL,
     });
   }
 

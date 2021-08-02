@@ -1,6 +1,4 @@
-const Discord = require("discord.js");
-const path = require("path");
-const fs = require("fs");
+const { LolWhitelistFindMatches } = require("../sequelize/models");
 
 const DISCORD_COMMAND = "lol_addwhitelist";
 
@@ -12,39 +10,22 @@ module.exports.run = async (client, message, args) => {
   );
 
   try {
-    fs.readFile(
-      path.join("src", "assets", "whitelist_find_match.txt"),
-      "utf-8",
-      async function (err, data) {
-        const arrayNames = data.split(",");
+    const [user, created] = await LolWhitelistFindMatches.findOrCreate({
+      where: { lol_name: lolNickname },
+      defaults: {
+        created_at: new Date(),
+      },
+    });
 
-        const alreadyExistsThisName = arrayNames.filter((name) => {
-          return name === lolNickname;
-        });
+    if (!created) {
+      loadingMessage.delete();
+      return await message.channel.send(
+        `${lolNickname} já está adicionado a whitelist`
+      );
+    }
 
-        if (alreadyExistsThisName.length > 0) {
-          loadingMessage.delete();
-          await message.channel.send(
-            `${lolNickname} já está adicionado a whitelist`
-          );
-          return;
-        }
-
-        const newContentWhitelistNames = data + `,${lolNickname}`;
-
-        fs.writeFile(
-          path.join("src", "assets", "whitelist_find_match.txt"),
-          newContentWhitelistNames,
-          function (err) {
-            if (err) return console.log(err);
-          }
-        );
-
-        loadingMessage.delete();
-
-        await message.channel.send(`${lolNickname} adicionado a whitelist`);
-      }
-    );
+    loadingMessage.delete();
+    await message.channel.send(`${lolNickname} adicionado a whitelist`);
   } catch (err) {
     loadingMessage.edit(`Não foi possível adicionar a whitelist`);
   }

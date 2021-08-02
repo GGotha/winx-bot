@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: "winx-bot-mysql"
+    restart: always
+    ports:
+      - 127.0.0.1:3306:3306
+    environment:
+      MYSQL_DATABASE: winx_bot_development
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+  backend:
+    image: node:14-alpine
+    container_name: "winx-bot-backend"
+    command: yarn start-dev
+    working_dir: /app
+    volumes:
+      - ./:/app
+    depends_on:
+      - mysql

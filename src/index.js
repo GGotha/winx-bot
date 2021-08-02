@@ -1,14 +1,16 @@
-const Discord = require("discord.js");
-const fs = require("fs");
 const path = require("path");
-const cron = require("node-cron");
-const findMatchForSpecificUser = require("./tasks/findMatchForSpecificUser");
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 require("dotenv").config({
   path: path.resolve(__dirname, "..", ".env." + process.env.NODE_ENV),
 });
+
+const Discord = require("discord.js");
+const fs = require("fs");
+const cron = require("node-cron");
+const findMatchForSpecificUser = require("./tasks/findMatchForSpecificUser");
+const birthdateNotify = require("./tasks/birthdateNotify");
 
 const client = new Discord.Client();
 client.prefix = process.env.PREFIX;
@@ -28,16 +30,27 @@ fs.readdir("./src/commands", (error, files) => {
   });
 });
 
-client.on("ready", () => {
-  cron.schedule("*/30 * * * * *", () =>
-    fs.readFile(
-      path.join("src", "assets", "whitelist_find_match.txt"),
-      "utf-8",
-      function (err, data) {
-        findMatchForSpecificUser(client, data);
-      }
-    )
+client.on("ready", async () => {
+  cron.schedule("*/30 * * * * *", () => {
+    findMatchForSpecificUser(client);
+  });
+
+  cron.schedule(
+    "0 12 * * *",
+    () => {
+      birthdateNotify(client);
+    },
+    {
+      scheduled: true,
+      timezone: "America/Sao_Paulo",
+    }
   );
+
+  const infoUser = await (
+    await client.users.fetch("142064584906375168")
+  ).avatarURL();
+
+  console.log("fetch", infoUser);
 
   console.log("Bot iniciado!");
 
@@ -57,7 +70,10 @@ client.on("message", async (message) => {
     return undefined;
   }
 
-  const args = message.content.slice("wx!".length).trim().split(/ +/g);
+  const args = message.content
+    .slice(`${process.env.PREFIX}!`.length)
+    .trim()
+    .split(/ +/g);
   const command = args.shift().toLowerCase();
   let commandFile = client.commands.get(command);
   if (commandFile) commandFile.run(client, message, args);

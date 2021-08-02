@@ -27,8 +27,6 @@ module.exports.run = async (client, message, args) => {
       profileIconId: summonerIcon,
     } = await RiotGames.getSummonerTokensBySummonerName(encodedLolNickname);
 
-    console.log("hey dude", summonerId);
-
     const embedSummonerIcon = `http://ddragon.leagueoflegends.com/cdn/11.10.1/img/profileicon/${summonerIcon}.png`;
 
     const spectate = await RiotGames.getInfoSpectate(summonerId);
@@ -145,7 +143,6 @@ module.exports.run = async (client, message, args) => {
     loadingMessage.delete();
     return message.channel.send(botembed);
   } catch (err) {
-    console.log(err);
     loadingMessage.edit(`Partida não encontrada`);
   }
 };
