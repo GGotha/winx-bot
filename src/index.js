@@ -46,12 +46,6 @@ client.on("ready", async () => {
     }
   );
 
-  const infoUser = await (
-    await client.users.fetch("142064584906375168")
-  ).avatarURL();
-
-  console.log("fetch", infoUser);
-
   console.log("Bot iniciado!");
 
   client.user.setPresence({
