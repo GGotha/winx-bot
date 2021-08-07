@@ -117,6 +117,7 @@ module.exports = async (client) => {
         .fetch(CHANNEL_ID_WHICH_MESSAGE_WILL_BE_SENT)
         .then((channel) => channel.send(botembed));
     } catch (err) {
+      console.log(err);
       return;
     }
   });
